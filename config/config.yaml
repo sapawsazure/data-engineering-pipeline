@@ -1,18 +1,29 @@
-# config/config.yaml
 database:
   source_db:
-    host: "${SOURCE_DB_HOST}"
+    host: "localhost"
     port: 5432
-    database: "source_database"
+    database: "source_db"
     schema: "public"
+    user: "postgres"  # or your PostgreSQL username
+    password: "Petcheezs123$"  # your PostgreSQL password
   target_db:
-    host: "${TARGET_DB_HOST}"
+    host: "localhost"
     port: 5432
-    database: "target_database"
-    schema: "analytics"
+    database: "target_db"
+    schema: "public"
+    user: "postgres"  # or your PostgreSQL username
+    password: "Petcheezs123$"  # your PostgreSQL password
 
 data_quality:
-  row_threshold: 1000
-  null_threshold: 0.1
+  row_threshold: 1  # Minimum number of rows expected
+  max_row_threshold: 10000  # Maximum number of rows expected (optional)
+  null_threshold: 0.1  # Maximum allowed percentage of null values (10%)
   date_format: "%Y-%m-%d"
+  validations:
+    revenue:
+      min_value: 0
+      max_value: null  # no upper limit
+    cost:
+      min_value: 0
+      max_value: null  # no upper limit
   

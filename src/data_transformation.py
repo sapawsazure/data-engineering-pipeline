@@ -14,8 +14,8 @@ class DataTransformation:
             # Remove duplicates
             df = df.drop_duplicates()
             
-            # Handle missing values
-            df = df.fillna(method='ffill')
+            # Handle missing values using ffill instead of deprecated method
+            df = df.ffill()
             
             # Convert date columns
             date_cols = df.select_dtypes(include=['object']).columns

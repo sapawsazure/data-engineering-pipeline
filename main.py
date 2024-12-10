@@ -2,6 +2,7 @@
 from src.data_ingestion import DataIngestion
 from src.data_transformation import DataTransformation
 from src.data_validation import DataValidator
+from src.data_loader import DataLoader
 from utils import logger
 
 def main():
@@ -11,6 +12,7 @@ def main():
         ingestion = DataIngestion(config_path)
         transformation = DataTransformation(ingestion.config)
         validator = DataValidator(ingestion.config)
+        loader = DataLoader(ingestion.config)
         
         # Extract data
         query = """
@@ -26,7 +28,9 @@ def main():
         # Validate data
         validation_results = validator.validate_data(transformed_data)
         
-        if validation_results.success:
+        if validation_results:
+            # Load data to target database
+            loader.load_data(transformed_data)
             logger.info("Data pipeline completed successfully")
         else:
             logger.error("Data validation failed")

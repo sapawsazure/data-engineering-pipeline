@@ -16,12 +16,16 @@ class DataIngestion:
             return yaml.safe_load(file)
     
     def _create_source_connection(self):
-        load_dotenv()
-        conn_string = f"postgresql://{os.getenv('SOURCE_DB_USER')}:{os.getenv('SOURCE_DB_PASSWORD')}@" \
-                     f"{self.config['database']['source_db']['host']}:{self.config['database']['source_db']['port']}/" \
-                     f"{self.config['database']['source_db']['database']}"
-        return create_engine(conn_string)
-    
+        try:
+            db_config = self.config['database']['source_db']
+            conn_string = f"postgresql://{db_config['user']}:{db_config['password']}@" \
+                         f"{db_config['host']}:{db_config['port']}/" \
+                         f"{db_config['database']}"
+            return create_engine(conn_string)
+        except Exception as e:
+            logger.error(f"Error creating database connection: {str(e)}")
+            raise
+
     def extract_data(self, query):
         try:
             logger.info(f"Starting data extraction with query: {query}")
