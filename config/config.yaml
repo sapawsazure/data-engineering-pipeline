@@ -1,0 +1,18 @@
+# config/config.yaml
+database:
+  source_db:
+    host: "${SOURCE_DB_HOST}"
+    port: 5432
+    database: "source_database"
+    schema: "public"
+  target_db:
+    host: "${TARGET_DB_HOST}"
+    port: 5432
+    database: "target_database"
+    schema: "analytics"
+
+data_quality:
+  row_threshold: 1000
+  null_threshold: 0.1
+  date_format: "%Y-%m-%d"
+  
